@@ -29,7 +29,8 @@ export async function action({ request }: ActionFunctionArgs) {
         body: JSON.stringify(newTodo)
     });
     if (!response.ok) return { error: "Failed to add todo" };
-    return { success: true, message: `Added todo: ${newTodo}` };
+    const createdTodo = await response.json();
+    return { success: true, todo: createdTodo };
 };
 
 export const TodosPage = () => {
@@ -48,7 +49,8 @@ export const TodosPage = () => {
                 <input name="text" placeholder="Add a todo" required />
                 <button type="submit">Add</button>
             </Form>
-            {actionData?.message?.message && <p>{`created ${actionData.message.message}...`}</p>}
+            {actionData?.error && <p style={{ color: "red" }}>{actionData.error}</p>}
+            {actionData?.success && <p style={{ color: "green" }}>{`Success! for todo id = ${actionData.todo.id}`}</p>}
             {todos.map((todo) => (
                 <div key={todo.id} className="flex items-center p-4 mb-2 border rounded-lg shadow-sm">
                     <input type="checkbox" className="mr-4 w-5 h-5" checked={todo.completed} onChange={() => { }} />
