@@ -52,9 +52,10 @@ export async function updateTodoAction({ request, params }: ActionFunctionArgs) 
 const TodoToggle = ({ todo }: { todo: ITodo }) => {
   const fetcher = useFetcher();
   return (
-      <fetcher.Form method="post" action={`/todos/${todo.id}`}>
+      <fetcher.Form method="post" action={`/todos/${todo.id}`} style={{ display: "inline" }}>
+          <input type="checkbox" disabled checked={todo.completed} />{` ${todo.text} `}
           <input type="hidden" name="completed" value={todo.completed.toString()} />
-          <button type="submit">{fetcher.state === "submitting" ? "..." : todo.completed ? "Undo" : "Complete"}</button>
+          <button type="submit">{fetcher.state === "submitting" ? "..." : todo.completed ? "❌ Undo" : "✅ Complete"}</button>
       </fetcher.Form>
   );
 
@@ -85,7 +86,7 @@ export const TodosPage = () => {
             {todos.map((todo) => (
               <div key={todo.id} className="flex items-center p-4 mb-2 border rounded-lg shadow-sm">
                 <h4 className={`"text-gray-800 ${todo.completed ? "line-through" : ""}`}>
-                  {todo.text}{' '}<TodoToggle todo={todo} />
+                  <TodoToggle todo={todo} />
                 </h4>
               </div>
             ))}
