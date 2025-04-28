@@ -51,25 +51,20 @@ export async function updateTodoAction({ request, params }: ActionFunctionArgs) 
 
 const TodoToggle = ({ todo }: { todo: ITodo }) => {
   const fetcher = useFetcher();
-  
   return (
       <fetcher.Form method="post" action={`/todos/${todo.id}`}>
           <input type="hidden" name="completed" value={todo.completed.toString()} />
           <button type="submit">{fetcher.state === "submitting" ? "..." : todo.completed ? "Undo" : "Complete"}</button>
       </fetcher.Form>
   );
-};
 
-const TodoToggle1 = ({ todo }: { todo: ITodo }) => {
-  const submit = useSubmit();
-
-  const handleToggle = () => {
-    const formData = new FormData();
-    formData.append("completed", todo.completed.toString());
-    submit(formData, { method: "post", action: `/todos/${todo.id}`, navigate: false });
-  };
-
-  return (<button onClick={handleToggle}>{todo.completed ? "Undo" : "Complete"}</button>);
+  // const submit = useSubmit();
+  // const handleToggle = () => {
+  //   const formData = new FormData();
+  //   formData.append("completed", todo.completed.toString());
+  //   submit(formData, { method: "post", action: `/todos/${todo.id}`, navigate: false });
+  // };
+  // return (<button onClick={handleToggle}>{todo.completed ? "Undo" : "Complete"}</button>);
 };
 
 export const TodosPage = () => {
